@@ -85,7 +85,7 @@ function extractNameFromTemplate(value) {
  *   'cat'       => 'c'
  */
 function getFirstChar(value) {
-    throw new Error('Not implemented');
+    return value.charAt(0);
 }
 
 /**
@@ -100,7 +100,7 @@ function getFirstChar(value) {
  *   '\tHello, World! ' => 'Hello, World!'
  */
 function removeLeadingAndTrailingWhitespaces(value) {
-    throw new Error('Not implemented');
+   return value.trim();
 }
 
 /**
@@ -115,7 +115,7 @@ function removeLeadingAndTrailingWhitespaces(value) {
  *   'cat', 3 => 'catcatcat'
  */
 function repeatString(value, count) {
-    throw new Error('Not implemented');
+    return value.repeat(count);
 }
 
 /**
@@ -131,7 +131,7 @@ function repeatString(value, count) {
  *   'ABABAB','BA' => 'ABAB'
  */
 function removeFirstOccurrences(str, value) {
-    throw new Error('Not implemented');
+    return str.replace(value, '');
 }
 
 /**
@@ -146,7 +146,7 @@ function removeFirstOccurrences(str, value) {
  *   '<a>' => 'a'
  */
 function unbracketTag(str) {
-    throw new Error('Not implemented');
+    return str.replace(/[<>]/g, '');
 }
 
 
@@ -161,7 +161,7 @@ function unbracketTag(str) {
  *  'abcdefghijklmnopqrstuvwxyz' => 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
  */
 function convertToUpperCase(str) {
-    throw new Error('Not implemented');
+    return str.toLocaleUpperCase();
 }
 
 /**
@@ -175,7 +175,7 @@ function convertToUpperCase(str) {
  *   'info@gmail.com' => ['info@gmail.com']
  */
 function extractEmails(str) {
-    throw new Error('Not implemented');
+    return str.split(';');
 }
 
 /**
@@ -202,7 +202,22 @@ function extractEmails(str) {
  *
  */
 function getRectangleString(width, height) {
-    throw new Error('Not implemented');
+    let strLow = '─';
+    let strUpper = '─';
+    let strEmpty = ' ';
+
+    //strUpper = strUpper.repeat(width);
+    strUpper = '┌' + strUpper.repeat(width-2) + '┐\n';
+    //strUpper[strUpper.length-1] = '┐\n';
+
+    //strLow = strLow.repeat(width);
+    strLow = '└' + strLow.repeat(width-2) + '┘\n';
+
+   // strEmpty = strEmpty.repeat(width);
+    strEmpty = '│' + strEmpty.repeat(width-2) + '│\n';
+    //strEmpty[strEmpty.length-1] = '│\n';
+
+    return strUpper + strEmpty.repeat(height-2) + strLow;
 }
 
 
@@ -222,7 +237,23 @@ function getRectangleString(width, height) {
  *
  */
 function encodeToRot13(str) {
-    throw new Error('Not implemented');
+    function rot13(match) {
+        let symbol = match.charCodeAt();
+        if( symbol < 110 && symbol > 96 ) {
+            return String.fromCharCode(symbol+13);
+        }
+        else if( symbol > 108 && symbol < 123 ){
+            return String.fromCharCode(symbol-13);
+        }
+
+        if( symbol < 78 && symbol > 64 ) {
+            return String.fromCharCode(symbol+13);
+        }
+        else {
+            return String.fromCharCode(symbol-13);
+        }
+    }
+    return str.replace(/[A-Za-z]/g, rot13);
 }
 
 /**
@@ -239,7 +270,12 @@ function encodeToRot13(str) {
  *   isString(new String('test')) => true
  */
 function isString(value) {
-    throw new Error('Not implemented');
+    if(value instanceof String) return true;
+    if((typeof value == "string"))
+        return true
+    else return false;
+
+    //return (  );
 }
 
 
@@ -268,9 +304,71 @@ function isString(value) {
  *   'K♠' => 51
  */
 function getCardId(value) {
-    throw new Error('Not implemented');
+  let deck = ['A♣','2♣','3♣','4♣','5♣','6♣','7♣','8♣','9♣','10♣','J♣','Q♣','K♣',
+                'A♦','2♦','3♦','4♦','5♦','6♦','7♦','8♦','9♦','10♦','J♦','Q♦','K♦',
+                'A♥','2♥','3♥','4♥','5♥','6♥','7♥','8♥','9♥','10♥','J♥','Q♥','K♥',
+                'A♠','2♠','3♠','4♠','5♠','6♠','7♠','8♠','9♠','10♠','J♠','Q♠','K♠'
+                ];
+    return deck.indexOf(value);
 }
 
+function second_getCardId(value) {
+  let number = 0;
+   if( value.charAt(value.length-1) == '♣' ) {
+    number+=0;
+   }
+   else if( value.charAt(value.length-1) == '♦' ) {
+    number+=13;
+   }
+    else if( value.charAt(value.length-1) == '♥' ) {
+    number+=26;
+   }
+   else if( value.charAt(value.length-1) == '♠' ) {
+    number+=39;
+   }
+
+   if( value.charAt(0) == 'A' ) {
+    number+=0;
+   }
+   else if( value.charAt(0) == '2' ) {
+    number+=1;
+   }
+   else if( value.charAt(0) == '3' ) {
+    number+=2;
+   }
+   else if( value.charAt(0) == '4' ) {
+    number+=3;
+   }
+   else if( value.charAt(0) == '5' ) {
+    number+=4;
+   }
+   else if( value.charAt(0) == '6' ) {
+    number+=5;
+   }
+   else if( value.charAt(0) == '7' ) {
+    number+=6;
+   }
+   else if( value.charAt(0) == '8' ) {
+    number+=7;
+   }
+   else if( value.charAt(0) == '9' ) {
+    number+=8;
+   }
+   else if( value.charAt(0) == '1' ) {
+    number+=9;
+   }
+   else if( value.charAt(0) == 'J' ) {
+    number+=10;
+   }
+   else if( value.charAt(0) == 'Q' ) {
+    number+=11;
+   }
+   else if( value.charAt(0) == 'K' ) {
+    number+=12;
+   }
+
+   return number;
+}
 
 module.exports = {
     concatenateStrings: concatenateStrings,
